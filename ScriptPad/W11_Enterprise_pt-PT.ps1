@@ -1,11 +1,6 @@
 #================================================
 #   [PreOS] Update Module
 #================================================
-if ((Get-MyComputerModel) -match 'Virtual') {
-    Write-Host  -ForegroundColor Green "Setting Display Resolution to 1600x"
-    Set-DisRes 1600
-}
-
 Write-Host -ForegroundColor Green "Updating OSD PowerShell Module"
 Install-Module OSD -Force
 
@@ -17,10 +12,10 @@ Import-Module OSD -Force
 #=======================================================================
 $Params = @{
     OSVersion = "Windows 11"
-    OSBuild = "22H2"
-    OSEdition = "Pro"
-    OSLanguage = "en-us"
-    OSLicense = "Retail"
+    OSBuild = "24H2"
+    OSEdition = "Enterprise"
+    OSLanguage = "pt-pt"
+    OSLicense = "Volume"
     ZTI = $true
     Firmware = $false
 }
@@ -65,7 +60,8 @@ $OOBEDeployJson = @'
                     "Microsoft.XboxSpeechToTextOverlay",
                     "Microsoft.YourPhone",
                     "Microsoft.ZuneMusic",
-                    "Microsoft.ZuneVideo"
+                    "Microsoft.ZuneVideo",
+                    "*OutlookForWindows*"
                    ],
     "UpdateDrivers":  {
                           "IsPresent":  true

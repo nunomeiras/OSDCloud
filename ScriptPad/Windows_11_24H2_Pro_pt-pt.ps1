@@ -8,19 +8,15 @@
 #   Set Configuration
 #   DO NOT MODIFY BELOW UNLESS INSTRUCTED
 #================================================================================================
-$Global:OSBuild = "24H2"
-#$Global:OSDCloudUnattend = $true
-
 $Params = @{
-    OSBuild     = $Global:OSBuild
-    OSEdition   = "Pro"
-    OSVersion   = "Windows 11"
-    Culture     = "en-us"
-    SkipAutopilot = $true
-    SkipODT     = $true
-    ZTI         = $true
+    OSVersion = "Windows 11"
+    OSBuild = "24H2"
+    OSEdition = "Pro"
+    OSLanguage = "en-us"
+    OSLicense = "Retail"
+    ZTI = $true
+    Firmware = $false
 }
-
 Start-OSDCloud @Params
 
 #================================================================================================

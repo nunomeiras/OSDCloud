@@ -72,9 +72,9 @@ start "Install-Module OSD" /wait PowerShell -NoL -C Install-Module OSD -Force -V
 :: Start-OOBEDeploy
 :: There are multiple example lines. Make sure only one is uncommented
 :: The next line assumes that you have a configuration saved in C:\ProgramData\OSDeploy\OSDeploy.OOBEDeploy.json
-start "Start-OOBEDeploy" PowerShell -NoL -C Start-OOBEDeploy
+REM start "Start-OOBEDeploy" PowerShell -NoL -C Start-OOBEDeploy
 :: The next line assumes that you do not have a configuration saved in or want to ensure that these are applied
-REM start "Start-OOBEDeploy" PowerShell -NoL -C Start-OOBEDeploy -AddNetFX3 -UpdateDrivers -UpdateWindows
+start "Start-OOBEDeploy" PowerShell -NoL -C Start-OOBEDeploy -AddNetFX3 -UpdateDrivers -UpdateWindows
 
 exit
 '@

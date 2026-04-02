@@ -90,9 +90,60 @@ $OOBECMD | Out-File -FilePath 'C:\Windows\System32\OOBE.cmd' -Encoding ascii -Fo
 Write-Host -ForegroundColor Green "Create C:\Windows\Setup\Scripts\SetupComplete.cmd"
 $SetupCompleteCMD = @'
 powershell.exe -Command Set-ExecutionPolicy RemoteSigned -Force
+Write-Host -ForegroundColor Green "Ativando utilizador Administrator"
+
+net user Administrator /active:yes
+net user Administrator aifrdrd
+
+# Opcional: impedir expiração de password
+wmic UserAccount where Name='Administrator' set PasswordExpires=FALSE
 # powershell.exe -Command "& {IEX (IRM oobetasks.osdcloud.ch)}"
 '@
 $SetupCompleteCMD | Out-File -FilePath 'C:\Windows\Setup\Scripts\SetupComplete.cmd' -Encoding ascii -Force
+
+#================================================
+#  [PostOS] Skip OOBE + AutoLogon
+#================================================
+Write-Host -ForegroundColor Green "Configurando Skip OOBE e AutoLogon"
+
+$Unattend = @'
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <NetworkLocation>Work</NetworkLocation>
+                <ProtectYourPC>3</ProtectYourPC>
+                <SkipMachineOOBE>true</SkipMachineOOBE>
+                <SkipUserOOBE>true</SkipUserOOBE>
+            </OOBE>
+
+            <AutoLogon>
+                <Password>
+                    <Value>aifrdrd</Value>
+                    <PlainText>true</PlainText>
+                </Password>
+                <Enabled>true</Enabled>
+                <Username>Administrator</Username>
+                <LogonCount>5</LogonCount>
+            </AutoLogon>
+
+            <UserAccounts>
+                <AdministratorPassword>
+                    <Value>aifrdrd</Value>
+                    <PlainText>true</PlainText>
+                </AdministratorPassword>
+            </UserAccounts>
+
+        </component>
+    </settings>
+</unattend>
+'@
+
+$Unattend | Out-File -FilePath "C:\Windows\Panther\Unattend.xml" -Encoding utf8 -Force
 
 #=======================================================================
 #   Restart-Computer
